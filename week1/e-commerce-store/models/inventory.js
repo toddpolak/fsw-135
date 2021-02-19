@@ -7,6 +7,9 @@ const inventorySchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String
+    },
     quantity: Number
 })
 
