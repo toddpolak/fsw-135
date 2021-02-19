@@ -8,7 +8,6 @@ app.use('/', express.json())
 app.use(morgan('dev'))
 
 // Connect to DB
-
 mongoose.connect('mongodb://localhost:27017/inventorydb',
     {
         useNewUrlParser: true,
