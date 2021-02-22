@@ -33,5 +33,27 @@ router.route('/:inventoryId')
             return res.status(200).send(inventory)
         })
     })
+    .put((req, res, next) => {
+        Inventory.findOneAndUpdate(
+            { _id: req.params.inventoryId },
+            req.body,
+            { new: true },
+            (err, updatedItem) => {
+                if (err) {
+                    res.status(500)
+                    return next(err)
+                }
+                return res.status(201).send(updatedItem)
+            })
+    })
+    .delete((req, res, next) => {
+        Inventory.findOneAndDelete({ _id: req.params.inventoryId }, (err, deletedItem) => {
+            if (err) {
+                res.status(500)
+                return next(err)
+            }
+            return res.status(200).send(`Successfully deleted item ${deletedItem.item} from the database`)
+        })
+    })
 
 module.exports = router
