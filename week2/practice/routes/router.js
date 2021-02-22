@@ -24,13 +24,13 @@ router.route('/')
     })
 
 router.route('/:movieId')
-    .delete((req, res, next) => {
-        Movie.findOneAndDelete({ _id: req.params.movieId }, (err, deletedItem) => {
+    .get((req, res, next) => {
+        Movie.findById(req.params.inventoryId, (err, movie) => {
             if (err) {
                 res.status(500)
                 return next(err)
             }
-            return res.status(200).send(`Successfully deleted item ${deletedItem.title} from the database`)
+            return res.status(200).send(movie)
         })
     })
     .put((req, res, next) => {
@@ -39,11 +39,20 @@ router.route('/:movieId')
             req.body, // update the object with this data
             { new: true }, // send back the updated version please
             (err, updatedMovie) => {
+                if (err) {
+                    res.status(500)
+                    return next(err)
+                }
+                return res.status(201).send(updatedMovie)
+            })
+    })
+    .delete((req, res, next) => {
+        Movie.findOneAndDelete({ _id: req.params.movieId }, (err, deletedItem) => {
             if (err) {
                 res.status(500)
                 return next(err)
             }
-            return res.status(201).send(updatedMovie)
+            return res.status(200).send(`Successfully deleted item ${deletedItem.title} from the database`)
         })
     })
 
