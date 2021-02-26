@@ -23,6 +23,17 @@ router.route('/')
         })
     })
 
+router.route('/search/genre')
+    .get((req, res, next) => {
+        Movie.find({ genre: req.query.genre }, (err, movies) => {
+            if (err) {
+                res.status(500)
+                return next(err)
+            }
+            return res.status(200).send(movies)
+        })
+    })
+
 router.route('/:movieId')
     .get((req, res, next) => {
         Movie.findById(req.params.inventoryId, (err, movie) => {
