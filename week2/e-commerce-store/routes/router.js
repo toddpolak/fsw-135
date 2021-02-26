@@ -23,6 +23,17 @@ router.route('/')
         })
     })
 
+router.route('/search/category')
+    .get((req, res, next) => {
+        Inventory.find({ category: req.query.category }, (err, inventory) => {
+            if (err) {
+                res.status(500)
+                return next(err)
+            }
+            return res.status(200).send(inventory)
+        })
+    })
+
 router.route('/:inventoryId')
     .get((req, res, next) => {
         Inventory.findById(req.params.inventoryId, (err, inventory) => {
