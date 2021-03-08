@@ -29,7 +29,7 @@ issueRouter.route('/:userId')
 
 issueRouter.route('/:issueId')
     .get((req, res, next) => {
-        Issue.findById(req.params.userId, (err, issue) => {
+        Issue.findById(req.params.issueId, (err, issue) => {
             if (err) {
                 res.status(500)
                 return next(err)
@@ -61,7 +61,7 @@ issueRouter.route('/:issueId')
     })
 
 // upvote an issue
-issueRouter.route('/upvote/:issueId')
+issueRouter.route('/upVote/:issueId')
     .put((req, res, next) => {
         Issue.findOneAndUpdate(
             { _id: req.params.issueId },
