@@ -19,7 +19,9 @@ mongoose.connect('mongodb://localhost:27017/inventorydb',
     .then(() => console.log("Connected to MongoDB"))
 
 // Routes
-app.use('/user', require('./routes/authRouter'))
+app.use('/users', require('./routes/authRouter'))
+app.use('/issues', require('./routes/issueRouter'))
+app.use('/comments', require('./routes/commentRouter'))
 
 // Error handler
 app.use((err, req, res, next) => {
