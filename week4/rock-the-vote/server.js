@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+require('dotenv').config()
 const mongoose = require('mongoose')
 
 // Middleware (for every request)
