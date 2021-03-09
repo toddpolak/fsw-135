@@ -27,6 +27,18 @@ issueRouter.route('/:userId')
         })
     })
 
+// get all issues based on user id
+issueRouter.route('/byUser/:userId')
+    .get((req, res, next) => {
+        Issue.find({ user: req.params.userId }, (err, issues) => {
+            if (err) {
+                res.status(500)
+                return next(err)
+            }
+            return res.status(200).send(issues)
+        })
+    })
+
 issueRouter.route('/:issueId')
     .get((req, res, next) => {
         Issue.findById(req.params.issueId, (err, issue) => {
@@ -60,12 +72,28 @@ issueRouter.route('/:issueId')
         })
     })
 
-// upvote an issue
+// up vote an issue
 issueRouter.route('/upVote/:issueId')
     .put((req, res, next) => {
         Issue.findOneAndUpdate(
             { _id: req.params.issueId },
             { $inc: { votes: 1 }},
+            { new: true },
+            (err, updatedIssue) => {
+                if (err) {
+                    res.status(500)
+                    return next(err)
+                }
+                return res.status(201).send(updatedIssue)
+            })
+    })
+
+// down vote an issue
+issueRouter.route('/downVote/:issueId')
+    .put((req, res, next) => {
+        Issue.findOneAndUpdate(
+            { _id: req.params.issueId },
+            { $inc: { votes: -1 }},
             { new: true },
             (err, updatedIssue) => {
                 if (err) {
