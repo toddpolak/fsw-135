@@ -1,59 +1,50 @@
 const express = require('express')
 const authRouter = express.Router()
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
-authRouter.route('/')
-    .get((req, res, next) => {
-        User.find((err, users) => {
-            if (err) {
-                res.status(500)
-                return next(err)
-            }
-            return res.status(200).send(users)
-        })
-    })
-    .post((req, res, next) => {
+// Signup
+authRouter.post('/signup', (req, res, next) => {
+    User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
+        if(err){
+            res.status(500)
+            return next(err)
+        }
+        if(user){
+            res.status(403)
+            return next(new Error('That username is already taken'))
+        }
         const newUser = new User(req.body)
         newUser.save((err, savedUser) => {
-            if (err) {
+            if(err){
                 res.status(500)
                 return next(err)
             }
-            return res.status(201).send(savedUser)
+            // payload, secret
+            const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
+            return res.status(201).send({ token, user: savedUser })
         })
     })
+})
 
-authRouter.route('/:userId')
-    .get((req, res, next) => {
-        User.findById(req.params.userId, (err, user) => {
-            if (err) {
-                res.status(500)
-                return next(err)
-            }
-            return res.status(200).send(user)
-        })
+// Login
+authRouter.post('/login', (req, res, next) => {
+    User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
+        if(err){
+            res.status(500)
+            return next(err)
+        }
+        if(!user){
+            res.status(403)
+            return next(new Error('Username or Password is incorrect'))
+        }
+        if(req.body.password !== user.password){
+            res.status(403)
+            return next(new Error('Username or Password is incorrect'))
+        }
+        const token = jwt.sign(user.toObject(), process.env.SECRET)
+        return res.status(200).send({ token, user })
     })
-    .put((req, res, next) => {
-        User.findOneAndUpdate(
-            { _id: req.params.userId },
-            req.body,
-            { new: true },
-            (err, updatedUser) => {
-                if (err) {
-                    res.status(500)
-                    return next(err)
-                }
-                return res.status(201).send(updatedUser)
-            })
-    })
-    .delete((req, res, next) => {
-        User.findOneAndDelete({ _id: req.params.userId }, (err, deletedUser) => {
-            if (err) {
-                res.status(500)
-                return next(err)
-            }
-            return res.status(200).send(`Successfully deleted item ${deletedUser.username} from the database`)
-        })
-    })
+})
 
 module.exports = authRouter

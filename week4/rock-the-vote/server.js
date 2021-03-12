@@ -9,7 +9,7 @@ app.use('/', express.json())
 app.use(morgan('dev'))
 
 // Connect to DB
-mongoose.connect('mongodb://localhost:27017/inventorydb',
+mongoose.connect('mongodb://localhost:27017/rock-the-vote-db',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/inventorydb',
     .then(() => console.log("Connected to MongoDB"))
 
 // Routes
-app.use('/users', require('./routes/authRouter'))
+app.use('/auth', require('./routes/authRouter'))
 app.use('/issues', require('./routes/issueRouter'))
 app.use('/comments', require('./routes/commentRouter'))
 
