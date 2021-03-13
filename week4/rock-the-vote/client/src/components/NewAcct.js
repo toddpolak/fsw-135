@@ -1,11 +1,13 @@
 import React from 'react'
 
-export default function AuthForm(props){
+export default function NewAcct(props){
   const {
     handleChange, 
     handleSubmit, 
     btnText, 
     inputs: {
+      firstname,
+      lastname,
       username, 
       password
     } 
@@ -13,6 +15,18 @@ export default function AuthForm(props){
   
   return (
     <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        value={firstname} 
+        name="firstname" 
+        onChange={handleChange} 
+        placeholder="First Name"/>
+      <input 
+        type="text" 
+        value={lastname} 
+        name="lastname" 
+        onChange={handleChange} 
+        placeholder="Last Name"/>
       <input 
         type="text" 
         value={username} 
