@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 // Comment Blueprint
 const commentSchema = new Schema({
-    comment: {
-        type: String,
+    voted: {
+        type: Boolean,
         required: true
     },
     issue: {

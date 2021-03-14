@@ -2,6 +2,7 @@ const express = require('express')
 const issueRouter = express.Router()
 const Issue = require('../models/issue')
 
+/*
 issueRouter.route('/')
     .get((req, res, next) => {
         Issue.find((err, issues) => {
@@ -12,12 +13,15 @@ issueRouter.route('/')
             return res.status(200).send(issues)
         })
     })
+*/
 
-// post new issue based on user id
-issueRouter.route('/:userId')
+// post new issue with user id
+issueRouter.route('/')
     .post((req, res, next) => {
-        req.body.user = req.params.userId
+        req.body.user = req.user._id
+
         const newIssue = new Issue(req.body)
+
         newIssue.save((err, savedIssue) => {
             if (err) {
                 res.status(500)
@@ -28,9 +32,9 @@ issueRouter.route('/:userId')
     })
 
 // get all issues based on user id
-issueRouter.route('/byUser/:userId')
+issueRouter.route('/user')
     .get((req, res, next) => {
-        Issue.find({ user: req.params.userId }, (err, issues) => {
+        Issue.find({ user: req.user._id }, (err, issues) => {
             if (err) {
                 res.status(500)
                 return next(err)
@@ -39,6 +43,7 @@ issueRouter.route('/byUser/:userId')
         })
     })
 
+/*
 issueRouter.route('/:issueId')
     .get((req, res, next) => {
         Issue.findById(req.params.issueId, (err, issue) => {
@@ -105,5 +110,6 @@ issueRouter.route('/downVote/:issueId')
     })
 
 // todo: number of votes based on issue id
+*/
 
 module.exports = issueRouter

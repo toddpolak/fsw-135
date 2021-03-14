@@ -42,23 +42,23 @@ export default function Auth() {
     <div className="auth-container">
       { !toggle ?
         <>
-          <AuthForm 
-            handleChange={handleChangeNewAcct}
-            handleSubmit={handleSignup}
-            inputs={newAcctInputs}
-            btnText="Sign up"
-          />
-          <p className='link' onClick={() => setToggle(prev => !prev)}>Already a member?</p>
+        <Login 
+          handleChange={handleChangeLogin}
+          handleSubmit={handleLogin}
+          inputs={loginInputs}
+          btnText="Login"
+        />
+        <p className='link' onClick={() => setToggle(prev => !prev)}>Not a member?</p>
         </>
       :
         <>
-          <Login 
-            handleChange={handleChangeLogin}
-            handleSubmit={handleLogin}
-            inputs={loginInputs}
-            btnText="Login"
-          />
-          <p className='link' onClick={() => setToggle(prev => !prev)}>Not a member?</p>
+        <AuthForm 
+          handleChange={handleChangeNewAcct}
+          handleSubmit={handleSignup}
+          inputs={newAcctInputs}
+          btnText="Sign up"
+        />
+        <p className='link' onClick={() => setToggle(prev => !prev)}>Already a member?</p>
         </>
       }
     </div>

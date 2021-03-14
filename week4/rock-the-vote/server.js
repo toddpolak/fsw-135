@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const app = express()
 require('dotenv').config()
 const mongoose = require('mongoose')
+const expressJwt = require('express-jwt')
 
 // Middleware (for every request)
 app.use('/', express.json())
@@ -21,8 +22,9 @@ mongoose.connect('mongodb://localhost:27017/rock-the-vote-db',
 
 // Routes
 app.use('/auth', require('./routes/authRouter'))
-app.use('/issues', require('./routes/issueRouter'))
-app.use('/comments', require('./routes/commentRouter'))
+app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] })) //req.user
+app.use('/api/issues', require('./routes/issueRouter'))
+app.use('/api/comments', require('./routes/commentRouter'))
 
 // Error handler
 app.use((err, req, res, next) => {

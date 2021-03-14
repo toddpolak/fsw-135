@@ -63,6 +63,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height:75vh;
 }
 
 .profile > h1 {
@@ -72,6 +73,35 @@
 }
 
 .issues > h1 {
+  margin: 8px;
+  font-size: 2em;
+  text-align: center;
+}
+
+.issues > form {
+  border: 1px solid #3339;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.issues > form > input {
+  margin: 16px 8px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.issues > form > button {
+  margin: 16px 8px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.issue-list {
+  padding: 20px;
+}
+
+.issue > h1 {
   margin: 8px;
   font-size: 2em;
   text-align: center;
