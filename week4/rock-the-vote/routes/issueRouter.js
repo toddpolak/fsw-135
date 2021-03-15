@@ -2,7 +2,7 @@ const express = require('express')
 const issueRouter = express.Router()
 const Issue = require('../models/issue')
 
-/*
+// get all issues
 issueRouter.route('/')
     .get((req, res, next) => {
         Issue.find((err, issues) => {
@@ -13,7 +13,6 @@ issueRouter.route('/')
             return res.status(200).send(issues)
         })
     })
-*/
 
 // post new issue with user id
 issueRouter.route('/')

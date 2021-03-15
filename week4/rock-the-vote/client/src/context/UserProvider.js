@@ -15,7 +15,8 @@ export default function UserProvider(props) {
     const initState = { 
         user: JSON.parse(localStorage.getItem('user')) || {}, 
         token: localStorage.getItem('token') || '', 
-        issues: JSON.parse(localStorage.getItem('issues')) || [] 
+        issues: JSON.parse(localStorage.getItem('issues')) || [],
+        allIssues: JSON.parse(localStorage.getItem('allIssues')) || []
     }
     const [userState, setUserState] = useState(initState)
 
@@ -45,6 +46,7 @@ export default function UserProvider(props) {
                 localStorage.setItem('user', JSON.stringify(user))
 
                 getUserIssues()
+                getAllIssues()
                 setUserState(prevState => ({
                     ...prevState,
                     user,
@@ -73,6 +75,19 @@ export default function UserProvider(props) {
             setUserState(prevState => ({
                 ...prevState,
                 issues: res.data
+            }))
+        })
+        .catch(err => console.log(err.response.data.errMsg))
+    }
+
+    function getAllIssues() {
+        userAxios.get("/api/issues")
+        .then(res => {
+            localStorage.setItem('allIssues', JSON.stringify(res.data))
+
+            setUserState(prevState => ({
+                ...prevState,
+                allIssues: res.data
             }))
         })
         .catch(err => console.log(err.response.data.errMsg))
