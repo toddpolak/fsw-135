@@ -63,7 +63,8 @@ export default function UserProvider(props) {
         setUserState({
             user: {},
             token: '',
-            issues: []
+            issues: [],
+            allIssues: []
         })
     }
 
@@ -98,7 +99,8 @@ export default function UserProvider(props) {
             .then(res => {
                 setUserState(prevState => ({
                     ...prevState, 
-                    issues: [...prevState.issues, res.data]
+                    issues: [...prevState.issues, res.data],
+                    allIssues: [... prevState.allIssues, res.data]
                 }))
             })
             .catch(err => console.log(err.response.data.errMsg))
