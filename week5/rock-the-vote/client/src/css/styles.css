@@ -8,6 +8,11 @@
   text-decoration: none;
 }
 
+h1 {
+    text-align: center;
+    font-size: 2em;
+}
+
 .app {
   border: 1px solid black;
   width: 680px;
@@ -68,13 +73,13 @@
 
 .profile > h1 {
   margin: 8px;
-  font-size: 2em;
+  font-size: 1em;
   text-align: center;
 }
 
 .issues > h1 {
   margin: 8px;
-  font-size: 2em;
+  font-size: 1em;
   text-align: center;
 }
 
