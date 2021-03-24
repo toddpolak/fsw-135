@@ -4,7 +4,7 @@ import IssueForm from '../components/IssueForm'
 import IssueList from '../components/IssueList'
 
 export default function Issues() {
-  const { user, addIssue, issues, allIssues } = useContext(UserContext)
+  const { addIssue, allIssues } = useContext(UserContext)
 
   return (
     <div className="issues">
