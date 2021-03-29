@@ -50,6 +50,7 @@ h1 {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  width: 300px;
 }
 
 .auth-container > form > input {
@@ -121,4 +122,8 @@ h1 {
 
 .link {
   cursor: pointer;
+}
+
+.err-msg {
+  color: firebrick;
 }

@@ -5,6 +5,7 @@ export default function NewAcct(props){
     handleChange, 
     handleSubmit, 
     btnText, 
+    errMsg,
     inputs: {
       firstname,
       lastname,
@@ -40,6 +41,7 @@ export default function NewAcct(props){
         onChange={handleChange} 
         placeholder="Password"/>
       <button>{ btnText }</button>
+      <p className='err-msg'>{errMsg}</p>
     </form>
   )
 }

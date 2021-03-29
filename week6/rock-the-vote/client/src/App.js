@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.js'
 import Auth from './components/Auth.js'
 import Profile from './components/Profile.js'
 import Issues from './components/Issues.js'
+import ProtectedRoute from './components/ProtectedRoute'
 import { UserContext } from './context/UserProvider'
 
 export default function App() {
@@ -12,19 +13,23 @@ export default function App() {
   return (
       <div className="app">
           <h1>Rock the Vote</h1>
-          <Navbar logout={logout} />
+          { token && <Navbar logout={logout} /> }
           <Switch>
             <Route 
               exact path="/" 
               render={()=> token ? <Redirect to='/profile' /> : <Auth />}
             />
-            <Route 
+            <ProtectedRoute 
               path="/profile"
-              render={() => <Profile />}
+              component={Profile}
+              redirectTo='/'
+              token={token}
             />
-            <Route 
+            <ProtectedRoute 
               path="/issues"
-              render={() => <Issues />}
+              component={Issues}
+              redirectTo='/'
+              token={token}
             />
           </Switch>
     </div>

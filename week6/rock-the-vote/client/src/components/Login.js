@@ -5,6 +5,7 @@ export default function Login(props) {
         handleChange, 
         handleSubmit, 
         btnText, 
+        errMsg,
         inputs: {
           username, 
           password
@@ -26,6 +27,7 @@ export default function Login(props) {
             onChange={handleChange} 
             placeholder="Password"/>
           <button>{ btnText }</button>
+          <p className='err-msg'>{errMsg}</p>
         </form>
       )
 }
