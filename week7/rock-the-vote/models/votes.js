@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // Comment Blueprint
-const commentSchema = new Schema({
+const votesSchema = new Schema({
     voted: {
         type: Boolean,
         required: true
@@ -19,4 +19,4 @@ const commentSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('Comment', commentSchema)
+module.exports = mongoose.model('Votes', votesSchema)

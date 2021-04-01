@@ -4,7 +4,7 @@ import Issue from './Issue.js'
 export default function IssueList(props) {
   const { issues, handleUpvote, handleDownvote } = props
 
-  console.log(props)
+  //console.log(props)
 
   return (
     <div className="issue-list">

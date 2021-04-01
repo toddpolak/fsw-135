@@ -123,30 +123,59 @@ export default function UserProvider(props) {
     }
 
     function handleUpvote(id) {
-        console.log('clicked', id)
+        //console.log('clicked', id)
 
-        userAxios.put(`/api/issues/upvote/${id}`)
+        userAxios.get(`/api/issues/upvote/${id}`)
             .then(res => {
+                //console.log('res: ', res.data)
 
-                console.log(res.data.votes)
+                if (res.data.length !== 0) {
+                    console.log('vote exists')
 
-                setUserState(prevState => ({
-                    ...prevState, 
-                    issues: [...prevState.issues.map(issue => issue._id !== id ? issue : res.data)],
-                    allIssues: [...prevState.allIssues.map(issue => issue._id !== id ? issue : res.data)]
-                }))
-                
+
+                } else {
+                    console.log('no vote exists')
+
+                    userAxios.put(`/api/issues/upvote/${id}`)
+                    .then(res => {
+        
+                        //console.log(res.data.votes)
+        
+                        setUserState(prevState => ({
+                            ...prevState, 
+                            issues: [...prevState.issues.map(issue => issue._id !== id ? issue : res.data)],
+                            allIssues: [...prevState.allIssues.map(issue => issue._id !== id ? issue : res.data)]
+                        }))
+                        
+                    })
+                    .catch(err => console.log(err.response.data.errMsg))
+        
+        
+                userAxios.post(`/api/issues/vote/${id}`)
+                    .then(res => {
+        
+                        //console.log('res.data: ', res.data)
+        
+                    })
+                    .catch(err => console.log(err.response.data.errMsg))
+
+                }
+
+
             })
             .catch(err => console.log(err.response.data.errMsg))
+
+
+
     }
 
     function handleDownvote(id) {
-        console.log('clicked', id)
+        //console.log('clicked', id)
 
         userAxios.put(`/api/issues/downvote/${id}`)
             .then(res => {
 
-                console.log(res.data.votes)
+                //console.log(res.data.votes)
 
                 setUserState(prevState => ({
                     ...prevState, 
