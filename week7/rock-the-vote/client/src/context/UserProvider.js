@@ -17,6 +17,7 @@ export default function UserProvider(props) {
         token: localStorage.getItem('token') || '', 
         issues: JSON.parse(localStorage.getItem('issues')) || [],
         allIssues: JSON.parse(localStorage.getItem('allIssues')) || [],
+        comments: JSON.parse(localStorage.getItem('comments')) || [],
         errMsg: ''
     }
     const [userState, setUserState] = useState(initState)
@@ -48,13 +49,14 @@ export default function UserProvider(props) {
 
                 getUserIssues()
                 getAllIssues()
+                getComments()
                 setUserState(prevState => ({
                     ...prevState,
                     user,
                     token
                 }))
             })
-            .catch(err => handleAuthErr(err.response.data.errMsg))
+            .catch(err => handleAuthErr(err.res.data.errMsg))
     }
 
     function logout() {
@@ -68,6 +70,20 @@ export default function UserProvider(props) {
             issues: [],
             allIssues: []
         })
+    }
+
+    function handleAlreadyVoted(errMsg) {
+        setUserState(prevState => ({
+            ...prevState,
+            errMsg
+        }))
+    }
+
+    function resetAlreadyVoted() {
+        setUserState(prevState => ({
+            ...prevState, 
+            errMsg: ''
+        }))
     }
 
     function handleAuthErr(errMsg) {
@@ -85,6 +101,8 @@ export default function UserProvider(props) {
     }
 
     function getUserIssues() {
+        resetAlreadyVoted()
+
         userAxios.get("/api/issues/user")
         .then(res => {
             localStorage.setItem('issues', JSON.stringify(res.data))
@@ -98,6 +116,8 @@ export default function UserProvider(props) {
     }
 
     function getAllIssues() {
+        resetAlreadyVoted()
+
         userAxios.get("/api/issues")
         .then(res => {
             localStorage.setItem('allIssues', JSON.stringify(res.data))
@@ -111,6 +131,8 @@ export default function UserProvider(props) {
     }
 
     function addIssue(newIssue) {
+        resetAlreadyVoted()
+
         userAxios.post('/api/issues', newIssue)
             .then(res => {
                 setUserState(prevState => ({
@@ -122,67 +144,79 @@ export default function UserProvider(props) {
             .catch(err => console.log(err.response.data.errMsg))
     }
 
-    function handleUpvote(id) {
-        //console.log('clicked', id)
+    function getComments() {
+        userAxios.get('/api/comments')
+        .then(res => {
 
+            console.log('getComments: ', res.data)
+            //return res.data
+
+            localStorage.setItem('comments', JSON.stringify(res.data))
+
+            
+            setUserState(prevState => ({
+                ...prevState,
+                comments: res.data
+            }))
+            
+        })
+        .catch(err => console.log(err.response.data.errMsg))
+    }
+
+    function addComment(id, newComment) {
+        userAxios.post(`/api/comments/add/${id}`, newComment)
+        .then(res => {
+
+        })
+        .catch(err => console.log(err.response.data.errMsg))
+    }
+
+    function handleUpvote(id) {
         userAxios.get(`/api/issues/upvote/${id}`)
             .then(res => {
-                //console.log('res: ', res.data)
-
                 if (res.data.length !== 0) {
-                    console.log('vote exists')
-
-
+                    handleAlreadyVoted('You already voted on this issue')
                 } else {
-                    console.log('no vote exists')
+                    resetAlreadyVoted()
 
                     userAxios.put(`/api/issues/upvote/${id}`)
-                    .then(res => {
-        
-                        //console.log(res.data.votes)
-        
-                        setUserState(prevState => ({
-                            ...prevState, 
-                            issues: [...prevState.issues.map(issue => issue._id !== id ? issue : res.data)],
-                            allIssues: [...prevState.allIssues.map(issue => issue._id !== id ? issue : res.data)]
-                        }))
-                        
-                    })
-                    .catch(err => console.log(err.response.data.errMsg))
-        
-        
-                userAxios.post(`/api/issues/vote/${id}`)
-                    .then(res => {
-        
-                        //console.log('res.data: ', res.data)
-        
-                    })
-                    .catch(err => console.log(err.response.data.errMsg))
-
-                }
-
-
+                        .then(res => {
+                            setUserState(prevState => ({
+                                ...prevState, 
+                                issues: [...prevState.issues.map(issue => issue._id !== id ? issue : res.data)],
+                                allIssues: [...prevState.allIssues.map(issue => issue._id !== id ? issue : res.data)]
+                            }))
+                            
+                        })
+                        .catch(err => console.log(err.res.data.errMsg))
+                    userAxios.post(`/api/issues/vote/${id}`)
+                        .catch(err => console.log(err.res.data.errMsg))
+                    }
             })
             .catch(err => console.log(err.response.data.errMsg))
-
-
-
     }
 
     function handleDownvote(id) {
-        //console.log('clicked', id)
-
-        userAxios.put(`/api/issues/downvote/${id}`)
+        userAxios.get(`/api/issues/upvote/${id}`)
             .then(res => {
-
-                //console.log(res.data.votes)
-
-                setUserState(prevState => ({
-                    ...prevState, 
-                    issues: [...prevState.issues.map(issue => issue._id !== id ? issue : res.data)],
-                    allIssues: [...prevState.allIssues.map(issue => issue._id !== id ? issue : res.data)]
-                }))
-                
+                if (res.data.length !== 0) {
+                    handleAlreadyVoted('You already voted on this issue')
+                } else {
+                    resetAlreadyVoted()
+                    
+                    userAxios.put(`/api/issues/downvote/${id}`)
+                        .then(res => {
+                            setUserState(prevState => ({
+                                ...prevState, 
+                                issues: [...prevState.issues.map(issue => issue._id !== id ? issue : res.data)],
+                                allIssues: [...prevState.allIssues.map(issue => issue._id !== id ? issue : res.data)]
+                            }))
+                            
+                        })
+                        .catch(err => console.log(err.res.data.errMsg))
+                    userAxios.post(`/api/issues/vote/${id}`)
+                        .catch(err => console.log(err.res.data.errMsg))
+                    }
             })
             .catch(err => console.log(err.response.data.errMsg))
     }
@@ -195,10 +229,11 @@ export default function UserProvider(props) {
                 login,
                 logout,
                 addIssue,
+                addComment,
                 resetAuthErr,
                 handleUpvote,
-                handleDownvote
-                
+                handleDownvote,
+                resetAlreadyVoted
             }}>
             { props.children }
         </UserContext.Provider>

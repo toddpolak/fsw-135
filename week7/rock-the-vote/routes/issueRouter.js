@@ -45,24 +45,16 @@ issueRouter.route('/user')
 
 // up vote an issue
 issueRouter.route('/upvote/:issueId')
-
     //check for current vote by this user
     .get((req, res, next) => {
-
-            console.log('userId: ', req.user._id)
-
             Votes.find({ issue: req.params.issueId, user: req.user._id }, (err, vote) => {
                 if (err) {
                     res.status(500)
                     return next(err)
                 }
-
-                //console.log('vote: ', vote)
-
                 return res.status(200).send(vote)
             })
         })
-
 
     .put((req, res, next) => {
         Issue.findOneAndUpdate(
@@ -78,20 +70,14 @@ issueRouter.route('/upvote/:issueId')
             })
     })
 
-
-
 // add item to votes for this user
 issueRouter.route('/vote/:issueId')
     .post((req, res, next) => {
-        //console.log('user: ', req.user)
-        //console.log('issue: ', req.params.issueId)
-
         req.body.issue = req.params.issueId
         req.body.user = req.user._id
-        req.body.voted = true
+        req.body.vote = 'upvote'
 
         const newVote = new Votes(req.body)
-        //console.log('newVote: ', newVote)
 
         newVote.save((err, savedVote) => {
             if (err) {
@@ -100,14 +86,21 @@ issueRouter.route('/vote/:issueId')
             }
             return res.status(201).send(savedVote)
         })
-
     })
-
-
-    
 
 // down vote an issue
 issueRouter.route('/downVote/:issueId')
+    //check for current vote by this user
+    .get((req, res, next) => {
+        Votes.find({ issue: req.params.issueId, user: req.user._id }, (err, vote) => {
+            if (err) {
+                res.status(500)
+                return next(err)
+            }
+            return res.status(200).send(vote)
+        })
+    })
+
     .put((req, res, next) => {
         Issue.findOneAndUpdate(
             { _id: req.params.issueId },

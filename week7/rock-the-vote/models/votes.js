@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// Comment Blueprint
+// Votes Blueprint
 const votesSchema = new Schema({
-    voted: {
-        type: Boolean,
+    vote: {
+        type: String,
         required: true
     },
     issue: {

@@ -102,7 +102,7 @@ h1 {
 
 .issues > form {
   border: 1px solid #3339;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -122,8 +122,8 @@ h1 {
 .issue-list {
   width: 630px;
   display: grid;
-  grid-template-areas: 'a a';
-  grid-auto-columns: 300px;
+  grid-template-areas: 'a';
+  grid-auto-columns: 613px;
   grid-row-gap: 10px;
   grid-column-gap: 10px;
   padding: 10px;
