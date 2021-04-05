@@ -56,7 +56,7 @@ export default function UserProvider(props) {
                     token
                 }))
             })
-            .catch(err => handleAuthErr(err.res.data.errMsg))
+            .catch(err => handleAuthErr(err.response.data.errMsg))
     }
 
     function logout() {
@@ -147,18 +147,12 @@ export default function UserProvider(props) {
     function getComments() {
         userAxios.get('/api/comments')
         .then(res => {
-
-            console.log('getComments: ', res.data)
-            //return res.data
-
             localStorage.setItem('comments', JSON.stringify(res.data))
 
-            
             setUserState(prevState => ({
                 ...prevState,
                 comments: res.data
             }))
-            
         })
         .catch(err => console.log(err.response.data.errMsg))
     }
@@ -166,7 +160,7 @@ export default function UserProvider(props) {
     function addComment(id, newComment) {
         userAxios.post(`/api/comments/add/${id}`, newComment)
         .then(res => {
-
+            getComments()
         })
         .catch(err => console.log(err.response.data.errMsg))
     }
@@ -188,9 +182,9 @@ export default function UserProvider(props) {
                             }))
                             
                         })
-                        .catch(err => console.log(err.res.data.errMsg))
+                        .catch(err => console.log(err.response.data.errMsg))
                     userAxios.post(`/api/issues/vote/${id}`)
-                        .catch(err => console.log(err.res.data.errMsg))
+                        .catch(err => console.log(err.response.data.errMsg))
                     }
             })
             .catch(err => console.log(err.response.data.errMsg))
@@ -213,9 +207,9 @@ export default function UserProvider(props) {
                             }))
                             
                         })
-                        .catch(err => console.log(err.res.data.errMsg))
+                        .catch(err => console.log(err.response.data.errMsg))
                     userAxios.post(`/api/issues/vote/${id}`)
-                        .catch(err => console.log(err.res.data.errMsg))
+                        .catch(err => console.log(err.response.data.errMsg))
                     }
             })
             .catch(err => console.log(err.response.data.errMsg))

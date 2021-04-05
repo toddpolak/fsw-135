@@ -6,8 +6,6 @@ import IssueList from '../components/IssueList'
 export default function Issues() {
   const { addIssue, allIssues, comments, addComment, handleUpvote, handleDownvote, resetAlreadyVoted, errMsg } = useContext(UserContext)
 
-  console.log('comments: ', comments)
-
   useEffect(() => {
     resetAlreadyVoted()
     // eslint-disable-next-line react-hooks/exhaustive-deps

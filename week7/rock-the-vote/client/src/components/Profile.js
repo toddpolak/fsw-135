@@ -3,7 +3,7 @@ import { UserContext } from '../context/UserProvider'
 import IssueList from '../components/IssueList'
 
 export default function Profile() {
-  const { user, issues, handleUpvote, handleDownvote, resetAlreadyVoted, errMsg } = useContext(UserContext)
+  const { user, issues, comments, addComment, handleUpvote, handleDownvote, resetAlreadyVoted, errMsg } = useContext(UserContext)
 
   useEffect(() => {
     resetAlreadyVoted()
@@ -17,6 +17,8 @@ export default function Profile() {
       <p className='err-msg'>{errMsg}</p>
       <IssueList 
         issues={issues} 
+        comments={comments}
+        addComment={addComment}
         handleUpvote={handleUpvote}
         handleDownvote={handleDownvote}
         errMsg={errMsg} />

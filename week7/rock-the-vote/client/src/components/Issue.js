@@ -5,12 +5,6 @@ import Comments from './Comments'
 export default function Issue(props) {
   const { _id, title, description, votes, comments, addComment, handleUpvote, handleDownvote } = props
 
-  console.log(props)
-
- //const comments = getComments(props._id)
-
- //console.log('comments: ', comments)
-
   return (
     <div className="issue">
       <h1>{ title } </h1>

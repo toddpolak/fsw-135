@@ -22,19 +22,15 @@ function AddComment(props) {
 
     return (
         <div className='add-comment-form'>
-            <div>
-                <textarea
-                    type='text'
-                    name='comment'
-                    value={input.comment}
-                    onChange={handleChange}
-                    placeholder='Comments' />
-            </div>
-            <div>
-                <button onClick={handleSave}>
-                    Add Comment
-                </button>
-            </div>
+            <textarea
+                type='text'
+                name='comment'
+                value={input.comment}
+                onChange={handleChange}
+                placeholder='Comments' />
+            <button onClick={handleSave}>
+                Add Comment
+            </button>
         </div>
     )
 }
