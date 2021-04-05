@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import AuthForm from './NewAcct'
 import Login from './Login'
 import { UserContext } from '../context/UserProvider'
+import Logo from '../img/rock-the-vote.png'
 
 const initLoginInputs = { username: '', password: '' }
 const initNewAcctInputs = { firstname: '', lastname: '', username: '', password: ''}
@@ -68,6 +69,9 @@ export default function Auth() {
         <p className='link' onClick={toggleForm}>Already a member?</p>
         </>
       }
+      <div>
+        <img src={Logo} alt='' />
+      </div>
     </div>
   )
 }
