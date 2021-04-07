@@ -64,11 +64,13 @@ export default function UserProvider(props) {
         localStorage.removeItem('user')
         localStorage.removeItem('issues')
         localStorage.removeItem('allIssues')
+        localStorage.removeItem('comments')
         setUserState({
             user: {},
             token: '',
             issues: [],
-            allIssues: []
+            allIssues: [],
+            comments: []
         })
     }
 
@@ -146,15 +148,15 @@ export default function UserProvider(props) {
 
     function getComments() {
         userAxios.get('/api/comments')
-        .then(res => {
-            localStorage.setItem('comments', JSON.stringify(res.data))
+            .then(res => {
+                localStorage.setItem('comments', JSON.stringify(res.data))
 
-            setUserState(prevState => ({
-                ...prevState,
-                comments: res.data
-            }))
-        })
-        .catch(err => console.log(err.response.data.errMsg))
+                setUserState(prevState => ({
+                    ...prevState,
+                    comments: res.data
+                }))
+            })
+            .catch(err => console.log(err.response.data.errMsg))
     }
 
     function addComment(id, newComment) {
