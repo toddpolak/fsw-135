@@ -31,20 +31,10 @@ h3 {
 }
 
 .container img {
-    width: 472px;
-    height: 259px;
+    width: 450px;
+    height: 225px;
 }
 
-.btm-img-container {
-    text-align: center;
-}
-
-.btm-img {
-
-    width: 320px;
-    height: 180px;
-    border: 1px solid black;
-}
 
 @media only screen and (min-width: 600px) and (max-width: 768px) {
     header, main, footer {
@@ -59,15 +49,5 @@ h3 {
 
     .container {
         width: 768px;
-    }
-
-    .container img {
-        width: 707px;
-        height: 389px;
-    }
-
-    .btm-img {
-        width: 640px;
-        height: 360px;
     }
 }
