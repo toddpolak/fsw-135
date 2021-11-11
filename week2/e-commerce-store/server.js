@@ -14,9 +14,11 @@ mongoose.connect('mongodb://localhost:27017/inventorydb',
         useUnifiedTopology: true,
         useCreateIndex: true,
         useFindAndModify: false
-    }
+    },
+    () => console.log("Connected to the MongoDB")
 )
-    .then(() => console.log("Connected to MongoDB"))
+    // depreciated
+    //.then(() => console.log("Connected to MongoDB"))
 
 // Routes
 app.use('/inventory', require('./routes/router'))
