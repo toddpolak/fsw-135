@@ -9,16 +9,22 @@ app.use(morgan('dev'))
 
 // Connect to DB
 
-mongoose.connect('mongodb://localhost:27017/moviedb',
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false
-    }
-    //() => console.log('Connected to the DB')
-)
-    .then(() => console.log("Connected to MongoDB"))
+// mongoose.connect('mongodb://localhost:27017/moviedb',
+//     {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//         useCreateIndex: true,
+//         useFindAndModify: false
+//     }
+//     //() => console.log('Connected to the DB')
+// )
+//     .then(() => console.log("Connected to MongoDB"))
+
+main().catch(err => console.log(err));
+async function main() {
+    await mongoose.connect('mongodb://localhost:27017/moviedb');
+    console.log("Connected to the DB")
+}
 
 // Routes
 app.use('/movies', require('./routes/router'))
